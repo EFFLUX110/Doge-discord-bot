@@ -100,6 +100,24 @@ async def on_member_join(member):
     u=int(here your channel id will be there where bot will send welcome msg)
     if member.guild.name == 'Test':     #instead of Test you have to write your server name
       await client.get_channel(u).send(embed=embed)
+@client.event
+async def on_message_delete(message):
+    if len(message.mentions) == 0:
+        return
+    else:
+        ghostping = discord.Embed(title=f'GHOSTPING CAUGHT', color=0xe74c3c, timestamp=message.created_at)
+        ghostping.add_field(name='**Name:**', value=f'{message.author} ({message.author.id})')
+        ghostping.add_field(name='**Message:**', value=f'{message.content}')
+        ghostping.set_thumbnail(
+            url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtzZMvleC8FG1ExS4PyhFUm9kS4BGVlsTYw&usqp=CAU')
+        try:
+            await message.channel.send(embed=ghostping)
+        except discord.Forbidden:
+            try:
+                await message.author.send(embed=ghostping)
+            except discord.Forbidden:
+                return
+
 @client.command()
 async def analyze(ctx):
   await ctx.reply('write a paragraph or a lengthy line...')
@@ -113,6 +131,7 @@ async def analyze(ctx):
     await msg.reply(f'I think this is positve , positivity lvl:{sentiment}')
   else:
     await msg.reply(f'I think this is  negavtive , negavtivity lvl:{sentiment}')
+   
 @client.command()
 async def analyze_channel(ctx,channel: discord.TextChannel):
   ooo=int(channel.id)
