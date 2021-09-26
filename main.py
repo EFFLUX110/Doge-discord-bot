@@ -265,9 +265,9 @@ async def giveaway(ctx, mins:int,*,prize:str):
 
 @client.command()
 async def inspire(ctx):
-  response=requests.get("https://zenquotes.io/api/random")
+  response=requests.get("https://efflux.herokuapp.com/random")
   json_data=json.loads(response.text)
-  quote =json_data[0]['q'] + " -"+json_data[0]["a"]
+  quote =json_data['q'] + " -"+json_data["a"]
   await ctx.send(quote)
 
 @client.command()
